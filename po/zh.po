@@ -1,0 +1,265 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2023-09-14 08:46+0800\n"
+"Last-Translator: 沙鸥 <804381256@qq.com>\n"
+"Language-Team: Greek <https://hosted.weblate.org/projects/openatv/metrixhd/"
+"zh/>\n"
+"Language: zh\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Poedit 1.7.3\n"
+"POT-Creation-Date: \n"
+
+msgid "%d Minutes"
+msgstr "%d分钟"
+
+msgid "Cache data"
+msgstr "缓存数据"
+
+msgid "Celsius"
+msgstr "摄氏度"
+
+msgid "Current Weather"
+msgstr "当前天气"
+
+msgid "Default"
+msgstr "默认值"
+
+msgid "Defaults"
+msgstr "默认值"
+
+msgid "Disabled"
+msgstr "已禁用"
+
+msgid "East"
+msgstr "东"
+
+msgid "Enable Debug"
+msgstr "启用调试"
+
+msgid "Enabled"
+msgstr "已启用"
+
+msgid "Enter the location for your weather forecasts."
+msgstr "输入天气预报的位置."
+
+msgid "Error getting City ID"
+msgstr "获取城时出错"
+
+msgid "Error in Weatherinfo"
+msgstr "Weatherinfo错误"
+
+msgid "Fahrenheit"
+msgstr "华氏的"
+
+msgid "Feels like"
+msgstr "体感"
+
+msgid "Humidity"
+msgstr "湿度"
+
+msgid "Location Selection"
+msgstr "位置选择"
+
+msgid "MSN weather"
+msgstr "MSN天气"
+
+msgid "North"
+msgstr "北"
+
+msgid "Northeast"
+msgstr "东北"
+
+msgid "Northwest"
+msgstr "西北"
+
+msgid "Open-Meteo Wetter"
+msgstr "Open-Meteo Wetter"
+
+msgid "OpenWeatherMap"
+msgstr "OpenWeatherMap"
+
+msgid "Precipitation"
+msgstr "降水"
+
+msgid "Refresh interval"
+msgstr "刷新间隔"
+
+msgid "Search for City ID please wait..."
+msgstr "正在搜索城市,请稍候..."
+
+msgid "Search for your City"
+msgstr "搜索您的城市"
+
+msgid "Select 'Yes' to enable add debug output to log."
+msgstr "选择‘是’以启用将调试输出添加到日志."
+
+msgid "Select 'Yes' to enable the addition of Weather."
+msgstr "选择“是”以启用“天气”的添加."
+
+msgid "Select Your Location"
+msgstr "选择您的位置"
+
+msgid "Select the preferred weather service to supply the weather information."
+msgstr "选择首选天气服务以提供天气信息."
+
+msgid "Select the temperature unit to be used for temperature displays."
+msgstr "选择用于温度显示的温度单位."
+
+msgid ""
+"Choose the icon set. You need to create an additional set here: /usr/share/"
+"enigma2/WeatherIconSets/NAME."
+msgstr ""
+"选择图标集. 您需要在此处创建一个附加集 位置: /usr/share/enigma2/"
+"WeatherIconSets/NAME."
+
+msgid ""
+"Choose whether the 'night switch' should be activated or not. Some icons are "
+"then displayed as night icons with moon."
+msgstr "选择是否启动 ‘夜间开关’.然后，一些图标会显示为带有月亮的夜间图标."
+
+msgid ""
+"Specify how often Weather retrieves its data from the server. 'Once' means "
+"the data will loaded only once after a GUI or system start."
+msgstr ""
+"指定天气预报从服务器检索数据的频率 ‘一次’表示只在图形用户界面 或系统启动后加"
+"载一次数据."
+
+msgid ""
+"Select this option to save that last obtained weather data locally. This is "
+"used to initialize the data immediately after restart while updated data is "
+"being fetched."
+msgstr ""
+"选择此选项可在本地保存上次获取的天气数据。这用于在重新启动后立即初始化数据，"
+"同时获取更新的数据."
+
+msgid ""
+"Enter a personalized API key for use with OpenWeatherMap (https://"
+"openweathermap.org/)."
+msgstr ""
+"输入用于OpenWeatherMap的个性化API密钥（ https://openweathermap.org/ ）."
+
+msgid ""
+"The API key for OpenWeatherMap is not defined or invalid.\n"
+"Please verify your input data.\n"
+"Otherwise your settings won't be saved."
+msgstr ""
+"OpenWeatherMap的API密钥未定义或无效.\n"
+"请验证您的输入数据.\n"
+"否则，您的设置将不会被保存."
+
+msgid "Set default values"
+msgstr "设置默认值"
+
+msgid "Show Weather Forecast"
+msgstr "显示天气预报"
+
+msgid "South"
+msgstr "南方"
+
+msgid "Southeast"
+msgstr "东南"
+
+msgid "Southwest"
+msgstr "西南"
+
+msgid "Temperature unit"
+msgstr "温度单位"
+
+msgid "Today"
+msgstr "今天"
+
+msgid "Update"
+msgstr "更新时间:"
+
+msgid "Weather API key"
+msgstr "天气API Key"
+
+msgid "Weather Plugin"
+msgstr "天气插件"
+
+msgid "Weather Settings Actions"
+msgstr "天气设置操作"
+
+msgid "Weather city name"
+msgstr "天气城市名称"
+
+msgid "Weather icon night switch"
+msgstr "天气图标夜间开关"
+
+msgid "Weather icon set"
+msgstr "天气图标集"
+
+msgid "Weather service"
+msgstr "气象服务"
+
+msgid "Weather settings"
+msgstr "天气设置"
+
+msgid "West"
+msgstr "西"
+
+msgid ""
+"The city name is too short. More than 2 characters are needed for search."
+msgstr "城市名称太短,搜索需要超过2个字符."
+
+msgid "n/a"
+msgstr "不适用"
+
+msgid "Weather settings screen"
+msgstr "天气设置"
+
+msgid "Press Key Green or Menu for Setup"
+msgstr "按绿色键或菜单进行设置"
+
+msgid "Press Ok for Virtuell Keyboard for City Name"
+msgstr "按OK键设置城市名称的虚拟键盘"
+
+msgid "Enabled :"
+msgstr "已启用:"
+
+msgid "Weather service :"
+msgstr "气象服务:"
+
+msgid "Weather city name :"
+msgstr "气象城市名称:"
+
+msgid "Weather API key :"
+msgstr "天气API密钥:"
+
+msgid "Temperature unit :"
+msgstr "温度单位:"
+
+msgid "Weather icon set :"
+msgstr "天气图标集:"
+
+msgid "Weather icon night switch :"
+msgstr "天气图标夜间开关:"
+
+msgid "Refresh interval :"
+msgstr "刷新间隔:"
+
+msgid "Cache data :"
+msgstr "缓存数据:"
+
+msgid "Enable Debug :"
+msgstr "启用调试:"
+
+msgid "Select the City and Press ok"
+msgstr "选择城市并按确定"
+
+msgid "exit"
+msgstr "退出"
+
+msgid "Select the City and Press Ok"
+msgstr "选择城市,然后按OK"
+
+msgid "City '%s' not found! Please try another wording."
+msgstr "未找到城市'%s',请尝试其他城市."
+
+msgid "Standard fertig"
+msgstr "标准就绪"
