@@ -18,25 +18,25 @@ from enigma import ePixmap, BT_SCALE, BT_KEEP_ASPECT_RATIO, BT_HALIGN_CENTER, BT
 
 
 class OAWeatherPixmap(Renderer):
-	def __init__(self):
-		Renderer.__init__(self)
-		self.iconFileName = ""
+    def __init__(self):
+        Renderer.__init__(self)
+        self.iconFileName = ""
 
-	GUI_WIDGET = ePixmap
+    GUI_WIDGET = ePixmap
 
-	def postWidgetCreate(self, instance):
-		instance.setPixmapScaleFlags(BT_SCALE | BT_KEEP_ASPECT_RATIO | BT_HALIGN_CENTER | BT_VALIGN_CENTER)
-		self.changed((self.CHANGED_DEFAULT,))
+    def postWidgetCreate(self, instance):
+        instance.setPixmapScaleFlags(BT_SCALE | BT_KEEP_ASPECT_RATIO | BT_HALIGN_CENTER | BT_VALIGN_CENTER)
+        self.changed((self.CHANGED_DEFAULT,))
 
-	def changed(self, what):
-		if self.instance:
-			pngname = ""
-			if what[0] != self.CHANGED_CLEAR:
-				pngname = self.source.iconfilename
-			if pngname == "":
-				self.instance.hide()
-			else:
-				self.instance.show()
-				if self.iconFileName != pngname:
-					self.instance.setPixmapFromFile(pngname)
-					self.iconFileName = pngname
+    def changed(self, what):
+        if self.instance:
+            pngname = ""
+            if what[0] != self.CHANGED_CLEAR:
+                pngname = self.source.iconfilename
+            if pngname == "":
+                self.instance.hide()
+            else:
+                self.instance.show()
+                if self.iconFileName != pngname:
+                    self.instance.setPixmapFromFile(pngname)
+                    self.iconFileName = pngname
