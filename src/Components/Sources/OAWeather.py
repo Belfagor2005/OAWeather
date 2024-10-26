@@ -120,7 +120,10 @@ class OAWeather(Source):
             return self.na
 
     def getWindDirShort(self):
-        return self.getCurrentVal("windDirSign", " ").split(" ")[1]
+        try:
+            return self.getCurrentVal("windDirSign", " ").split(" ")[1]
+        except:
+            return ""
 
     def getMaxTemp(self, day: int):
         return "%s %s" % (self.getKeyforDay("maxTemp", day), self.tempunit)
