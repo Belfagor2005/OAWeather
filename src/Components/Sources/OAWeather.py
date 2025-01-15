@@ -7,11 +7,11 @@
 #
 # dogtag is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with OAWeather.  If not, see <http://www.gnu.org/licenses/>.
+# along with OAWeather.	 If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime
 from Components.config import config
@@ -123,10 +123,12 @@ class OAWeather(Source):
 			return self.na
 
 	def getWindDirShort(self):
-		try:
-			return self.getCurrentVal("windDirSign", " ").split(" ")[1]
-		except:
-			return ""
+		wind_dir_sign = self.getCurrentVal("windDirSign", " ")
+		print("Debug: windDirSign =", wind_dir_sign)  # Per debug
+		parts = wind_dir_sign.split(" ")
+		if len(parts) > 1:
+			return parts[1]
+		return ""
 
 	def getMaxTemp(self, day: int):
 		return "%s %s" % (self.getKeyforDay("maxTemp", day), self.tempunit)
