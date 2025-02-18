@@ -7,11 +7,11 @@
 #
 # dogtag is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with OAWeather.	 If not, see <http://www.gnu.org/licenses/>.
+# along with OAWeather.  If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime
 from Components.config import config
@@ -103,7 +103,11 @@ class OAWeather(Source):
 
 	def getWindSpeed(self):
 		windSpeed, windunit = self.getCurrentVal("windSpeed"), self.getVal("windunit")
-		if windunit == "km/h" and config.plugins.OAWeather.windspeedMetricUnit.value == "m/s":
+		"""
+		# if windunit == "km/h" and config.plugins.OAWeather.windspeedMetricUnit.value == "m/s":
+			# windSpeed, windunit = str(round(int(windSpeed) / 3.6, 1)), "m/s"
+		"""
+		if hasattr(config.plugins.OAWeather, 'windspeedMetricUnit') and config.plugins.OAWeather.windspeedMetricUnit.value == "m/s":
 			windSpeed, windunit = str(round(int(windSpeed) / 3.6, 1)), "m/s"
 		return "%s %s" % (windSpeed, windunit)
 
