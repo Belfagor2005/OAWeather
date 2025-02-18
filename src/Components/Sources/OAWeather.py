@@ -118,11 +118,11 @@ class OAWeather(Source):
 	def getWindDirName(self):
 		skydirection = self.getCurrentVal("windDirSign", "* *")
 		if skydirection:
-			skydirection = skydirection.split(" ")
 			if len(skydirection) > 1:
 				return self.skydirs.get(skydirection[1], skydirection[1])
 			else:
 				return "Unknown direction"
+			return self.skydirs.get(skydirection[1], skydirection[1])
 		else:
 			return self.na
 

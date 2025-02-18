@@ -33,6 +33,7 @@ from pickle import dump, load
 from time import time
 from twisted.internet.reactor import callInThread
 from xml.etree.ElementTree import tostring, parse
+
 from . import _
 
 config.plugins.OAWeather = ConfigSubsection()
@@ -320,7 +321,10 @@ class OAWeatherPlugin(Screen):
 			"picpath": join(PLUGINPATH, "Images")
 		}
 		skintext = ""
-		xml = parse(join(PLUGINPATH, "skin.xml")).getroot()
+		xmlFile = join(PLUGINPATH, "skin_FHD.xml") if getDesktop(0).size().height() == 1080 else ""
+		if not exists(xmlFile):
+			xmlFile = join(PLUGINPATH, "skin.xml")
+		xml = parse(xmlFile).getroot()
 		for screen in xml.findall('screen'):
 			if screen.get("name") == "OAWeatherPlugin":
 				skintext = tostring(screen).decode()
