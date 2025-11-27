@@ -165,13 +165,7 @@ class OAWeather(Converter, object):
 				elif self.mode == "raintext":
 					return self.source.getRainText()
 				elif self.mode == "winddisplay":
-					wind_speed = self.source.getWindSpeed()
-					wind_dir_name = self.source.getWindDirName()
-					if wind_speed and wind_dir_name:
-						return "%s %s" % (wind_speed, wind_dir_name)
-					else:
-						return "Data not available"
-					# return "%s %s" % (self.source.getWindSpeed(), self.source.getWindDirName())
+					return "%s %s" % (self.source.getWindSpeed(), self.source.getWindDirName())
 				elif self.mode == "windspeed":
 					return self.source.getWindSpeed()
 				elif self.mode == "winddir":
