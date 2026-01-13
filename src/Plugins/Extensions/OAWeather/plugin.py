@@ -38,8 +38,10 @@ from Screens.VirtualKeyBoard import VirtualKeyBoard
 from Tools.Directories import SCOPE_CONFIG, SCOPE_PLUGINS, SCOPE_SKINS, SCOPE_FONTS, resolveFilename
 from Tools.LoadPixmap import LoadPixmap
 from Tools.Weatherinfo import Weatherinfo
-
 from . import __version__, _
+
+PLUGINPATH = join(resolveFilename(SCOPE_PLUGINS), 'Extensions/OAWeather')
+picpath = join(PLUGINPATH, "Images")
 
 
 class WeatherHelper():
@@ -90,6 +92,7 @@ class WeatherHelper():
 	def loadSkin(self, skinName=""):
 		params = {"picpath": join(PLUGINPATH, "Images")}
 		skintext = ""
+		"""
 		xml = parse(join(PLUGINPATH, "skin.xml")).getroot()
 		for screen in xml.findall('screen'):
 			if screen.get("name") == skinName:
@@ -100,6 +103,32 @@ class WeatherHelper():
 					except Exception as e:
 						print("%s@key=%s" % (str(e), key))
 				break
+		return skintext
+		"""
+		xml = None
+		from enigma import getDesktop
+		screenwidth = getDesktop(0).size()
+		width = screenwidth.width()
+		if width >= 1920:
+			xmlpath = join(PLUGINPATH, "skinfhd.xml")
+		elif width <= 1280:
+			xmlpath = join(PLUGINPATH, "skin.xml")
+		else:
+			xmlpath = None  # No matching skin
+
+		if xmlpath and exists(xmlpath):
+			xml = parse(xmlpath).getroot()
+
+		if xml is not None:
+			for screen in xml.findall("screen"):
+				if screen.get("name") == "OAWeatherPlugin":
+					skintext = tostring(screen).decode()
+					for key in params:
+						try:
+							skintext = skintext.replace("{%s}" % key, params[key])
+						except Exception as e:
+							print("Error replacing key: %s -> %s" % (key, str(e)))
+					break
 		return skintext
 
 
@@ -148,10 +177,22 @@ class WeatherSettingsView(Setup):
 		Setup.__init__(self, session, "WeatherSettings", plugin="Extensions/OAWeather", PluginLanguageDomain="OAWeather")
 		self["key_blue"] = StaticText(_("Manage favorites"))
 		self["key_yellow"] = StaticText(_("Defaults"))
-		self["blueActions"] = HelpableActionMap(self, ["ColorActions"], {
-			"yellow": (self.keyYellow, _("Set default values")),
-			"blue": (self.keyBlue, _("Search for your city")),
-			}, prio=0, description=_("Weather Settings Actions"))
+		self["blueActions"] = HelpableActionMap(
+			self,
+			["ColorActions"],
+			{
+				"yellow": (
+					self.keyYellow,
+					_("Set default values")
+				),
+				"blue": (
+					self.keyBlue,
+					_("Search for your city")
+				),
+			},
+			prio=0,
+			description=_("Weather Settings Actions"),
+		)
 		self.old_weatherservice = config.plugins.OAWeather.weatherservice.value
 		self.old_weatherlocation = config.plugins.OAWeather.weatherlocation.value
 
@@ -381,18 +422,23 @@ class OAWeatherOverview(Screen):
 		self["key_blue"] = StaticText(_("Next favorite"))
 		self["key_ok"] = StaticText(_("View details"))
 		self["key_menu"] = StaticText(_("Settings"))
-		self["actions"] = ActionMap(["OAWeatherActions",
-									"ColorActions",
-									"InfoActions"], {
-													"ok": self.keyOk,
-													"cancel": self.close,
-													"red": self.close,
-													"yellow": self.favoriteUp,
-													"blue": self.favoriteDown,
-													"green": self.favoriteChoice,
-													"menu": self.config,
-													"info": self.keyOk
-													}, -1)
+		self["actions"] = ActionMap(
+			[
+				"OAWeatherActions",
+				"ColorActions",
+				"InfoActions"
+			],
+			{
+				"ok": self.keyOk,
+				"cancel": self.close,
+				"red": self.close,
+				"yellow": self.favoriteUp,
+				"blue": self.favoriteDown,
+				"green": self.favoriteChoice,
+				"menu": self.config,
+				"info": self.keyOk
+			}, -1
+		)
 		for idx in range(1, 6):
 			self[f"weekday{idx}_temp"] = StaticText()
 		self.onLayoutFinish.append(self.startRun)
@@ -467,7 +513,8 @@ class OAWeatherDetailFrame(Screen):
 		self.skin = weatherhelper.loadSkin("OAWeatherDetailFrame")
 		Screen.__init__(self, session)
 		self.widgets = ("time", "pressure", "temp", "feels", "humid", "precip", "windspeed",
-							"winddir", "windgusts", "uvindex", "visibility", "shortdesc", "longdesc")
+						"winddir", "windgusts", "uvindex", "visibility", "shortdesc", "longdesc"
+						)
 		for widget in self.widgets:
 			self[widget] = StaticText()
 		self["icon"] = Pixmap()
@@ -489,9 +536,9 @@ class OAWeatherDetailFrame(Screen):
 
 class OAWeatherDetailview(Screen):
 	YAHOOnightswitch = {
-					"3": "47", "4": "47", "11": "45", "12": "45", "13": "46", "14": "46", "15": "46", "16": "46", "28": "27",
-					"30": "29", "32": "31", "34": "33", "37": "47", "38": "47", "40": "45", "41": "46", "42": "46", "43": "46"
-					}
+		"3": "47", "4": "47", "11": "45", "12": "45", "13": "46", "14": "46", "15": "46", "16": "46", "28": "27",
+		"30": "29", "32": "31", "34": "33", "37": "47", "38": "47", "40": "45", "41": "46", "42": "46", "43": "46"
+	}
 	YAHOOdayswitch = {"27": "28", "29": "30", "31": "32", "33": "34", "45": "39", "46": "16", "47": "4"}
 
 	def __init__(self, session, currlocation):
@@ -528,25 +575,30 @@ class OAWeatherDetailview(Screen):
 		self["key_channel"] = StaticText(_("Day +/-"))
 		self["key_info"] = StaticText(_("Details +/-"))
 		self["key_ok"] = StaticText(_("Glass"))
-		self["actions"] = ActionMap(["OAWeatherActions",
-									"DirectionActions",
-									"ColorActions",
-									"InfoActions"], {
-													"ok": self.toggleDetailframe,
-													"cancel": self.exit,
-													"up": self.prevEntry,
-													"down": self.nextEntry,
-													"right": self.pageDown,
-													"left": self.pageUp,
-													"red": self.exit,
-													"yellow": self.favoriteUp,
-													"blue": self.favoriteDown,
-													"green": self.favoriteChoice,
-													"channeldown": self.prevDay,
-													"channelup": self.nextDay,
-													"info": self.toggleDetailLevel,
-													"menu": self.config
-													}, -1)
+		self["actions"] = ActionMap(
+			[
+				"OAWeatherActions",
+				"DirectionActions",
+				"ColorActions",
+				"InfoActions"
+			],
+			{
+				"ok": self.toggleDetailframe,
+				"cancel": self.exit,
+				"up": self.prevEntry,
+				"down": self.nextEntry,
+				"right": self.pageDown,
+				"left": self.pageUp,
+				"red": self.exit,
+				"yellow": self.favoriteUp,
+				"blue": self.favoriteDown,
+				"green": self.favoriteChoice,
+				"channeldown": self.prevDay,
+				"channelup": self.nextDay,
+				"info": self.toggleDetailLevel,
+				"menu": self.config
+			}, -1
+		)
 		self["statustext"] = StaticText()
 		self.pressPix = self.getPixmap("barometer.png")
 		self.tempPix = self.getPixmap("temp.png")
@@ -957,13 +1009,20 @@ class OAWeatherFavorites(Screen):
 		self["key_green"] = StaticText(_("Save"))
 		self["key_yellow"] = StaticText(_("Edit"))
 		self["key_blue"] = StaticText(_("Add"))
-		self['actions'] = ActionMap(["OkCancelActions",
-									"ColorActions"], {"ok": self.keyOk,
-													"red": self.keyRed,
-													"green": self.keyGreen,
-													"yellow": self.keyYellow,
-													"blue": self.keyBlue,
-													"cancel": self.keyExit}, -1)
+		self['actions'] = ActionMap(
+			[
+				"OkCancelActions",
+				"ColorActions"
+			],
+			{
+				"ok": self.keyOk,
+				"red": self.keyRed,
+				"green": self.keyGreen,
+				"yellow": self.keyYellow,
+				"blue": self.keyBlue,
+				"cancel": self.keyExit
+			}, -1
+		)
 		self.onShown.append(self.onShownFinished)
 
 	def onShownFinished(self):
