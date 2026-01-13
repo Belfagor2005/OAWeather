@@ -7,11 +7,11 @@
 #
 # dogtag is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with OAWeather.  If not, see <http://www.gnu.org/licenses/>.
+# along with OAWeather.	 If not, see <http://www.gnu.org/licenses/>.
 
 # Some parts are taken from MetrixHD skin and MSNWeather Plugin.
 
@@ -43,7 +43,6 @@ from . import __version__, _
 PLUGINPATH = join(resolveFilename(SCOPE_PLUGINS), 'Extensions/OAWeather')
 picpath = join(PLUGINPATH, "Images")
 
-
 class WeatherHelper():
 	def __init__(self):
 		self.favoritefile = resolveFilename(SCOPE_CONFIG, "oaweather_fav.dat")
@@ -58,7 +57,7 @@ class WeatherHelper():
 		else:
 			self.setFavoriteList([self.locationDefault])
 			with open(self.favoritefile, "wb") as fd:
-				dump(self.favoriteList, fd, protocol=5)  # Force version 5 to be compatible with python < 3.13
+				dump(self.favoriteList, fd, protocol=5)	 # Force version 5 to be compatible with python < 3.13
 
 	def setFavoriteList(self, favoriteList):
 		self.favoriteList = favoriteList
@@ -114,7 +113,7 @@ class WeatherHelper():
 		elif width <= 1280:
 			xmlpath = join(PLUGINPATH, "skin.xml")
 		else:
-			xmlpath = None  # No matching skin
+			xmlpath = None	# No matching skin
 
 		if xmlpath and exists(xmlpath):
 			xml = parse(xmlpath).getroot()
@@ -148,12 +147,12 @@ config.plugins.OAWeather.nighticons = ConfigYesNo(default=True)
 config.plugins.OAWeather.cachedata = ConfigSelection(default=0, choices=[(0, _("Disabled"))] + [(x, _("%d Minutes") % x) for x in (30, 60, 120)])
 config.plugins.OAWeather.refreshInterval = ConfigSelectionNumber(0, 1440, 30, default=120, wraparound=True)
 config.plugins.OAWeather.apikey = ConfigText(default="", fixed_size=False)
-config.plugins.OAWeather.weathercity = ConfigText(default="", visible_width=250, fixed_size=False)  # deprecated: will be removed at end of 2025
+config.plugins.OAWeather.weathercity = ConfigText(default="", visible_width=250, fixed_size=False)	# deprecated: will be removed at end of 2025
 config.plugins.OAWeather.owm_geocode = ConfigText(default=(0, 0))  # deprecated: will be removed at end of 2025
 weatherhelper.readFavoriteList()
 choiceList = [(item, item[0]) for item in weatherhelper.favoriteList]
 config.plugins.OAWeather.weatherlocation = ConfigSelection(default=weatherhelper.locationDefault, choices=choiceList)
-weatherhelper.convertOldLocation()  # deprecated: will be removed at end of 2025
+weatherhelper.convertOldLocation()	# deprecated: will be removed at end of 2025
 config.plugins.OAWeather.detailLevel = ConfigSelection(default="default", choices=[("default", _("More Details / Smaller font")), ("reduced", _("Less details / Larger font"))])
 config.plugins.OAWeather.tempUnit = ConfigSelection(default="Celsius", choices=[("Celsius", _("Celsius")), ("Fahrenheit", _("Fahrenheit"))])
 config.plugins.OAWeather.windspeedMetricUnit = ConfigSelection(default="km/h", choices=[("km/h", _("km/h")), ("m/s", _("m/s"))])
@@ -219,7 +218,7 @@ class WeatherSettingsView(Setup):
 			config.plugins.OAWeather.weatherlocation.save()
 			weatherhandler.reset(newLocation=config.plugins.OAWeather.weatherlocation.value)
 		if config.plugins.OAWeather.trendarrows.isChanged():
-			self.session.screen["OAWeather"].changed((1,))  # (1,) = refresh all source widgets
+			self.session.screen["OAWeather"].changed((1,))	# (1,) = refresh all source widgets
 		Setup.keySave(self)
 
 	def keyYellow(self, SAVE=False):
@@ -303,7 +302,7 @@ class WeatherHandler():
 	def refreshWeatherData(self, entry=None):
 		self.debug("refreshWeatherData")
 		self.refreshTimer.stop()
-		if config.misc.firstrun.value:  # don't refresh on firstrun try again after 10 seconds
+		if config.misc.firstrun.value:	# don't refresh on firstrun try again after 10 seconds
 			self.debug("firstrun")
 			self.refreshTimer.start(600000, True)
 			return
@@ -339,7 +338,7 @@ class WeatherHandler():
 		# TODO write cache only on close
 		if config.plugins.OAWeather.cachedata.value and self.currLocation == config.plugins.OAWeather.weatherlocation.value:
 			with open(CACHEFILE, "wb") as fd:
-				dump(data, fd, protocol=5)  # Force version 5 to be compatible with python < 3.13
+				dump(data, fd, protocol=5)	# Force version 5 to be compatible with python < 3.13
 		if self.refreshCallback:
 			self.refreshCallback()
 			self.refreshCallback = None
@@ -643,7 +642,7 @@ class OAWeatherDetailview(Screen):
 				found, index = True, self["detailList"].index
 			else:
 				currdatehourtime = self.currdatehour.time()
-				for index, hourData in enumerate(skinList):  # set index to current time
+				for index, hourData in enumerate(skinList):	 # set index to current time
 					if datetime.strptime(hourData[0][:5], "%H:%M").time() > currdatehourtime:
 						found = True
 						index -= 1
@@ -725,13 +724,13 @@ class OAWeatherDetailview(Screen):
 			feels = f"{round(current.get('feels', 0))} {tempunit}"
 			humid = f"{round(current.get('rh', 0))} %"
 			hourly = today["hourly"]
-			precip = f"{round(hourly[0]['precip'])} %" if len(hourly) else self.na  # workaround: use value from next hour if available
+			precip = f"{round(hourly[0]['precip'])} %" if len(hourly) else self.na	# workaround: use value from next hour if available
 			windSpd = f"{round(current.get('windSpd', 0))} {'km/h' if config.plugins.OAWeather.windspeedMetricUnit.value == 'km/h' else 'm/s'}"
 			windDir = f"{_(weatherhandler.WI.directionsign(round(current.get('windDir', 0))))}"
 			windGusts = f"{round(current.get('windGust', 0))} {'km/h' if config.plugins.OAWeather.windspeedMetricUnit.value == 'km/h' else 'm/s'}"
 			uvIndex = f"{round(current.get('uv', 0))}"
 			visibility = f"{round(current.get('vis', 0))} km"
-			shortDesc = current.get("pvdrCap", "")  # e.g. 'bewölkt'
+			shortDesc = current.get("pvdrCap", "")	# e.g. 'bewölkt'
 			longDesc = nowcasting.get("summary", "")  # e.g. "Der Himmel wird bewölkt."
 			yahoocode = weatherhandler.WI.convert2icon("MSN", current.get("symbol", "")).get("yahooCode")  # e.g. 'n4000' -> {'yahooCode': '26', 'meteoCode': 'Y'}
 			yahoocode = self.nightSwitch(yahoocode, self.getIsNight(currtime, sunrisestr, sunsetstr))
@@ -743,7 +742,7 @@ class OAWeatherDetailview(Screen):
 			if days:
 				self.sunList = []
 				self.moonList = []
-				for index, day in enumerate(days):  # collect data on future hours of current day
+				for index, day in enumerate(days):	# collect data on future hours of current day
 					if index:
 						hourData = []
 					almanac = day.get("almanac", {})
@@ -770,9 +769,9 @@ class OAWeatherDetailview(Screen):
 						windGusts = f"{round(hour.get('windGust', 0))} {'km/h' if config.plugins.OAWeather.windspeedMetricUnit.value == 'km/h' else 'm/s'}"
 						uvIndex = f"{round(hour.get('uv', 0))}"
 						visibility = f"{round(hour.get('vis', 0))} km"
-						shortDesc = hour.get("pvdrCap", "")  # e.g. 'bewölkt'
-						longDesc = hour.get("summary", "")  # e.g. "Der Himmel wird bewölkt."
-						yahoocode = weatherhandler.WI.convert2icon("MSN", hour.get("symbol", "")).get("yahooCode")  # e.g. 'n4000' -> {'yahooCode': '26', 'meteoCode': 'Y'}
+						shortDesc = hour.get("pvdrCap", "")	 # e.g. 'bewölkt'
+						longDesc = hour.get("summary", "")	# e.g. "Der Himmel wird bewölkt."
+						yahoocode = weatherhandler.WI.convert2icon("MSN", hour.get("symbol", "")).get("yahooCode")	# e.g. 'n4000' -> {'yahooCode': '26', 'meteoCode': 'Y'}
 						yahoocode = self.nightSwitch(yahoocode, self.getIsNight(currtime, sunrisestr, sunsetstr))
 						iconfile = join(iconpath, f"{yahoocode}.png")
 						iconpix = LoadPixmap(cached=True, path=iconfile) if iconfile and exists(iconfile) else None
@@ -794,7 +793,7 @@ class OAWeatherDetailview(Screen):
 			for index, sunrisestr in enumerate(sunriseList):
 				sunsetstr = sunsetList[index]
 				self.sunList.append((sunrisestr if sunrisestr else self.na, sunsetstr if sunsetstr else self.na))
-			self.moonList = []  # OMW does not support moonrise / moonset at all
+			self.moonList = []	# OMW does not support moonrise / moonset at all
 			hourly = fulldata.get("hourly", {})
 			dayList = []
 			if hourly:
@@ -847,13 +846,13 @@ class OAWeatherDetailview(Screen):
 		fulldata = weatherhandler.getFulldata()
 		if fulldata:
 			city = fulldata.get("city", {})
-			sunriseTs, sunsetTs = city.get("sunrise", 0), city.get("sunset", 0)  # OM only supports sunris/sunset of today
+			sunriseTs, sunsetTs = city.get("sunrise", 0), city.get("sunset", 0)	 # OM only supports sunris/sunset of today
 			sunrisestr = datetime.fromtimestamp(sunriseTs).isoformat() if sunriseTs else ""
 			sunsetstr = datetime.fromtimestamp(sunsetTs).isoformat() if sunsetTs else ""
 			self.sunList, self.moonList = [], []  # OMW does not support moonrise / moonset at all
 			hourData = []
 			tempunit = "°C" if config.plugins.OAWeather.tempUnit.value == "Celsius" else "°F"
-			timeTs = fulldata.get("dt", 0)  # collect latest available data
+			timeTs = fulldata.get("dt", 0)	# collect latest available data
 			timestr = datetime.fromtimestamp(timeTs).strftime("%H:%M") if timeTs else ""
 			main = fulldata.get("main", {})
 			hourly = fulldata.get("list", {})
@@ -873,14 +872,14 @@ class OAWeatherDetailview(Screen):
 			longDesc = ""  # OWM does not support long descriptions at all
 			currtime = datetime.fromtimestamp(timeTs)
 			isNight = self.getIsNight(currtime, sunrisestr, sunsetstr)
-			yahoocode = self.nightSwitch(weatherhandler.WI.convert2icon("OWM", weather.get("id", "n/a")).get("yahooCode"), isNight)  # e.g. '801' -> {'yahooCode': '34', 'meteoCode': 'B'}
+			yahoocode = self.nightSwitch(weatherhandler.WI.convert2icon("OWM", weather.get("id", "n/a")).get("yahooCode"), isNight)	 # e.g. '801' -> {'yahooCode': '34', 'meteoCode': 'B'}
 			iconfile = join(iconpath, f"{yahoocode}.png")
 			iconpix = LoadPixmap(cached=True, path=iconfile) if iconfile and exists(iconfile) else None
 			hourData.append([timestr, press, temp, feels, humid, precip, windSpd, windDir, windGusts, uvIndex, visibility, shortDesc, longDesc, iconpix])
 			dayList = []
 			if hourly:
 				currday = datetime.fromisoformat(hourly[0].get("dt_txt", "1900-01-01 00:00:00")).replace(hour=0, minute=0, second=0, microsecond=0)
-				for hour in hourly:  # collect data on future hours of current day
+				for hour in hourly:	 # collect data on future hours of current day
 					isotime = hour.get("dt_txt", "1900-01-01 00:00:00")
 					currtime = datetime.fromisoformat(isotime)
 					if currtime > datetime.fromtimestamp(timeTs):  # only future values
@@ -907,7 +906,7 @@ class OAWeatherDetailview(Screen):
 						shortDesc = weather.get("description", "")
 						longDesc = ""  # OWM does not support long descriptions at all
 						isNight = self.getIsNight(currtime, sunrisestr, sunsetstr)
-						yahoocode = self.nightSwitch(weatherhandler.WI.convert2icon("OWM", weather.get("id", "n/a")).get("yahooCode"), isNight)  # e.g. '801' -> {'yahooCode': '34', 'meteoCode': 'B'}
+						yahoocode = self.nightSwitch(weatherhandler.WI.convert2icon("OWM", weather.get("id", "n/a")).get("yahooCode"), isNight)	 # e.g. '801' -> {'yahooCode': '34', 'meteoCode': 'B'}
 						iconfile = join(iconpath, f"{yahoocode}.png")
 						iconpix = LoadPixmap(cached=True, path=iconfile) if iconfile and exists(iconfile) else None
 						hourData.append([timestr, press, temp, feels, humid, precip, windSpd, windDir, windGusts, uvIndex, visibility, shortDesc, longDesc, iconpix])
@@ -1090,7 +1089,7 @@ class OAWeatherFavorites(Screen):
 		for favorite in self.newFavList:
 			if not weatherhelper.isDifferentLocation(newcomer, favorite):  # newcomer contains new coordinates?
 				favorite = favorite if len(favorite[0]) > len(newcomer[0]) else newcomer  # use the one that has more information
-				append = False  # so don't append the newcomer
+				append = False	# so don't append the newcomer
 			newFavList.append(favorite)
 		if append:
 			newFavList.append(newcomer)
